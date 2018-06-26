@@ -1,0 +1,16 @@
+{
+  "name": "shiftplanner",
+  "version": "1.0.0",
+  "description": "This project is used to plan the shifts for AO Team Members",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jade": "^1.11.0",
+    "multer": "^1.3.0"
+  }
+}

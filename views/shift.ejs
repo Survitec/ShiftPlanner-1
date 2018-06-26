@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--
+Project: ShiftPlanner
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+.pt-3-half {
+    padding-top: 1.4rem;
+}
+.card{
+overflow:auto;
+}
+.morningShift{
+background:#29a329 !important;
+color:white !important;
+text-transform: uppercase;
+}
+.secondShift{
+background:#cc3300 !important;
+color:white !important;
+text-transform: uppercase;
+}
+.generalShift{
+background:#6666ff !important;
+text-transform: uppercase;
+}
+.leave{
+background:#ffff00 !important;
+text-transform: uppercase;
+}
+.wfh{
+background:#ff0000 !important;
+color:black !important;
+text-transform: uppercase;
+}
+.sundayWork{	
+background:#e37d5b !important;
+color:black !important;
+text-transform: uppercase;
+}
+.pad{
+padding-bottom: 5px;
+}
+.pad-left{
+padding-left: 5px;
+}
+        </style>
+    </head>
+    <body >
+	<div class="container">
+	
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="memberModalLabel">Instructions</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please select Year and Month on the left corner to continue</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="instructions" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="memberModalLabel">Instructions</h4>
+      </div>
+      <div class="modal-body">
+	  <p> 1. Try to follow this order: <ul><li>Enter the shift of the associate in the Day-1.</li><li>Click on Auto-Fill to replicate the same to the entire row.</li><li>Enter the Leave, WFH and Sunday data.</li><li>Click on save.</li></ul></p>
+        <p>2. Please refer to legend while entering the data. Do not enter unrelated data in the fields.</p>
+		<p>3. Do not forget to click on Save after you are done.</p>
+		<p>4. If the data for the requested month is not available, tool returns the previous month's data.</p>
+		<p style="color:red">5. Please enter the "shift" first and then leaves and WFH</p>
+		<p>6. Auto-fill feature has been provided. Enter the shift in the first cell/day and click on Auto-fill. The same data is copied to the entire row.</p>
+		<p style="color:red">7. Do not click on Auto-Fill after entering the Leave and WFH data as this over-rides the entire data for the associate.</p>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+<!-- Editable table -->
+<div class="card col-lg-12">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Shift Roster</h3>
+	 <a href="/" class="btn btn-success">Home</a>
+
+	 <div class="row">
+	 <div class="col-lg-2">
+	 	<div class="form-group">
+  <label for="year">Select Year:</label>
+  <select class="form-control" id="year">
+  <option>-</option>
+    <option>2018</option>
+    <option>2019</option>
+    <option>2020</option>
+    <option>2021</option>
+	<option>2022</option>
+	<option>2023</option>
+	<option>2024</option>
+  </select>
+</div>
+	 	<div class="form-group">
+  <label for="month">Select Month:</label>
+  <select class="form-control" id="month">
+   <option>-</option>
+    <option value="1">Jan</option>
+    <option value="2">Feb</option>
+    <option value="3">Mar</option>
+    <option value="4">Apr</option>
+	<option value="5">May</option>
+	<option value="6">June</option>
+	<option value="7">July</option>
+	<option value="8">Aug</option>
+	<option value="9">Sept</option>
+	<option value="10">Oct</option>
+	<option value="11">Nov</option>
+	<option value="12">Dec</option>
+	
+  </select>
+</div>
+	 <h4>LEGEND</h4>
+	 <table id="legendTable" class="table text-center">
+	
+	 <tbody><tr class="morningShift"><td>First Shift</td><td>F</td></tr>
+	 <tr class="generalShift"><td >General Shift</td><td>G</td></tr>
+	 <tr class="secondShift"><td >Second Shift</td><td>S</td></tr>
+	 <tr class="leave"><td>Leave</td><td>L</td></tr>
+	 <tr class="wfh"><td>WFH</td><td>WFH</td></tr>
+	 <tr class="sundayWork"><td>Sunday Work</td><td>Sun</td></tr></tbody>
+	 
+	 </table>
+	 </div>
+    <div class="card-body col-lg-9">
+        <div id="table" class="table-editable">
+            <span class="table-add pull-right pad"><a href="#!" class="text-success btn btn-info">Add New Member</i></a></span>
+			<span class="table-auto-fill pull-left pad"><a href="#!" class="text-success btn btn-success">Auto-Fill</i></a></span>
+					
+			<span class="table-instructions pull-left pad-left"><a href="#!" class="text-success btn btn-primary">Instructions</i></a></span>
+			<h5 class="pull-left pad-left"><b class="table-file-data"></b> </h5>
+            <table class="table table-bordered table-responsive-md table-striped text-center" id="shiftTable">
+              <thead  id="header_th">
+			  
+			  </thead>
+                    
+					
+                
+				<tbody id="dataTr">
+                
+				</tbody>
+            </table>
+			<button class="btn btn-rounded" id="export-btn" name="Export">Export</button>
+        </div>
+		<div id="export">
+		</div>
+    </div>
+	
+</div>
+<!-- Editable table -->
+
+
+
+
+</div>
+</div>
+
+
+        <script src="js/roster.js"></script>
+		
+		<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript">
+  $(document).ready(function() {
+    $('#myModal').modal('show');
+	
+	$('.table-instructions').click(function(){
+	  $('#instructions').modal('show');
+	});
+});
+</script>
+    </body>
+</html>
