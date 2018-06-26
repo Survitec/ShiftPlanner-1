@@ -1,12 +1,11 @@
 const express = require('express')
 const app = express()
 var url = require('url');
-var bodyParser = require('body-parser');
-//var multer = require('multer'); 
+var ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+
 app.use(express.static('public'));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-//app.use(multer());
+
+
 app.set('view engine','ejs');
 
 app.get('/', function (req, res) {
@@ -23,12 +22,7 @@ app.post('/saveFile', function(req, res) {
 	var status;
 	
 var fileName=q.query.year+q.query.month;
-console.log(fileName);
-console.log(q.query.data);
-//var content=req.body;
 
-//var jsonContent = JSON.stringify(content);
-//console.log(jsonContent);
 fs.writeFile("public/data/"+fileName+".json",q.query.data,{ flag: 'w' }, function (err) {
     if (err) {
 	status=err;
@@ -44,6 +38,9 @@ fs.writeFile("public/data/"+fileName+".json",q.query.data,{ flag: 'w' }, functio
 	res.send(status);
 });
 
-app.listen(8111, function () {
-  console.log('Example app listening on port 8111!')
-})
+app.listen(8080, ip);
+module.exports = app;
+
+//app.listen(8111, function () {
+  //console.log('Example app listening on port 8111!')
+//})
