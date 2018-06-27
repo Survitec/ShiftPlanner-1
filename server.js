@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
 const session = require('express-session');
-var half_hour = 1800000;
+var half_hour = 120000;
 var ssn;
 app.use(session({
     secret: "jkYO7^8S4@#5D4g5vfdf-2$3gr2%34",
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-	cookie  : { maxAge  : new Date(Date.now() + half_hour) }
+	cookie  : { maxAge  : half_hour}
 }));
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -23,7 +23,9 @@ app.get('/', function (req, res) {
   res.render('login');
 })
 
-app.post('/index', function (req, res) {
+app.get('/index', function (req, res) {
+ssn = req.session;
+ console.log(ssn);
 if(ssn.username){
 res.render('index');
 }
@@ -33,13 +35,15 @@ res.render('login');
   
 })
 
-app.post('/login',function(req,res){
+app.post('/action',function(req,res){
   ssn = req.session;
  
   var username=req.body.username;
   var password=req.body.password;
 if(username=='Tecshplan'&& password=='TM$node%sp^123'){
- ssn.username=username;
+ ssn.username=req.body.username;
+ console.log(ssn.username);
+ console.log(req.session.id);
 res.render('index');
 }
 else{
@@ -50,6 +54,8 @@ res.render('login');
 
 app.get('/shift', function (req, res) {
   ssn = req.session; 
+   console.log(ssn);
+   console.log(req.session.id);
   if(ssn.username) {
     res.render('shift');
   } else {
@@ -58,6 +64,7 @@ app.get('/shift', function (req, res) {
  // res.render('shift');
 })
 app.get('/logout',function(req,res){
+ console.log(ssn);
 req.session.destroy();
 res.render('login');
 });
@@ -89,9 +96,9 @@ fs.writeFile("public/data/"+fileName+".json",q.query.data,{ flag: 'w' }, functio
   }
 });
 
-app.listen(8080, ip);
-module.exports = app;
+//app.listen(8080, ip);
+//module.exports = app;
 
-/* app.listen(8111, function () {
+app.listen(8111, function () {
   console.log('Example app listening on port 8111!')
-}) */
+})

@@ -110,11 +110,11 @@ function ajaxCall(year, monthName) {
 			$('h5 b').addClass('text-danger');
                 alert('No json file found even for previous months. Please make sure the that atleast one json file for the last 3 months exists in the server');
             }
-
+$('#information').html('');
         },
         success: function (data) {
-			$('.table-file-data').text('');
-		$('.table-file-data').text('Showing '+year +'-'+monthName+' data');
+			
+		$('#information').html('Showing '+year +'-'+monthName+' data');
 		$('h5 b').removeClass();
 		$('h5 b').addClass('text-success');
             createTable(data);
@@ -129,7 +129,7 @@ function addRow(){
   $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="pt-3-half" contenteditable="true">Technical</td> <td class="pt-3-half" contenteditable="true">434545</td> <td class="pt-3-half" contenteditable="true">Naveen</td><td class="pt-3-half" contenteditable="true">No</td><td class="pt-3-half" contenteditable="true">1234567890</td>');
   for (var i = 0; i < month_days; i++) {
 
-                $(tr).append('<td class="pt-3-half days" contenteditable="true">G</td></tr>');
+                $(tr).append('<td class="pt-3-half days even" role="row" contenteditable="true">G</td></tr>');
             }
 			  $('#dataTr').append(tr);
 			  colorCode();
