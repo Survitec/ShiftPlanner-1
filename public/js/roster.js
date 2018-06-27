@@ -113,6 +113,7 @@ function ajaxCall(year, monthName) {
 
         },
         success: function (data) {
+			$('.table-file-data').text('');
 		$('.table-file-data').text('Showing '+year +'-'+monthName+' data');
 		$('h5 b').removeClass();
 		$('h5 b').addClass('text-success');
@@ -233,6 +234,16 @@ function colorCode() {
 		$(this).removeClass('generalShift morningShift wfh leave');
             $(this).addClass('secondShift');
         }
+		 if (text.toUpperCase() == 'SUN') {
+		 if(header.indexOf('Sun')>0 || header.indexOf('Sat')>0){
+		 	$(this).removeClass('generalShift morningShift wfh leave secondShift');
+			$(this).text('-');
+		}else{
+		$(this).removeClass('morningShift wfh leave secondShift');
+		$(this).text('G');
+            $(this).addClass('generalShift');
+        }
+        }
 		if(header.indexOf('Sun')>0 || header.indexOf('Sat')>0){
 		 	$(this).removeClass('generalShift morningShift wfh leave secondShift');
 			$(this).text('-');
@@ -241,6 +252,16 @@ function colorCode() {
 		 	$(this).removeClass('generalShift morningShift wfh leave secondShift');
 			$(this).text('SUN');
 			$(this).addClass('sundayWork');
+		}
+		if (text.toUpperCase() == '-') {
+		if(header.indexOf('Sun')>0 || header.indexOf('Sat')>0){
+		 	$(this).removeClass('generalShift morningShift wfh leave secondShift');
+			$(this).text('-');
+		}else{
+		$(this).removeClass('morningShift wfh leave secondShift');
+		$(this).text('G');
+            $(this).addClass('generalShift');
+        }
 		}
 
         // compare id to what you want
