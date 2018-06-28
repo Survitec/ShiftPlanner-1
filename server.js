@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
 
 app.get('/index', function (req, res) {
 ssn = req.session;
-// console.log(ssn);
+
 if(ssn.username){
 res.render('index');
 }
@@ -42,20 +42,17 @@ app.post('/action',function(req,res){
   var password=req.body.password;
 if(username=='Tecshplan'&& password=='TM$node%sp^123'){
  ssn.username=req.body.username;
- //console.log(ssn.username);
- //console.log(req.session.id);
+
 res.render('index');
 }
 else{
 res.render('login');
 }
-  //res.render('index');
+
 });
 
 app.get('/shift', function (req, res) {
   ssn = req.session; 
-   //console.log(ssn);
-   //console.log(req.session.id);
   if(ssn.username) {
     res.render('shift');
   } else {
@@ -64,7 +61,7 @@ app.get('/shift', function (req, res) {
  // res.render('shift');
 })
 app.get('/logout',function(req,res){
- //console.log(ssn.username);
+
 req.session.destroy();
 res.render('login');
 });
@@ -100,5 +97,5 @@ app.listen(8080, ip);
 module.exports = app;
 
 //app.listen(8111, function () {
- // console.log('Example app listening on port 8111!')
+  //console.log('Example app listening on port 8111!')
 //})
