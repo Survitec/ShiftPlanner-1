@@ -31,7 +31,7 @@ function produceTh(month, year, num) {
     var i;
     $(document).ready(function () {
 	//common fields irrespective of num of days in a month.
-	 var th='<tr><th class="text-center extra">Remove</th><th class="text-center">Module</th> <th class="text-center">Gid</th> <th class="text-center">Name</th><th class="text-center">Cab Required</th><th class="text-center">Mobile</th>';
+	 var th='<tr><th class="text-center extra">Remove</th><th class="text-center extra">Auto-Fill</th><th class="text-center">Module</th> <th class="text-center">Gid</th> <th class="text-center">Name</th><th class="text-center">Cab Required</th><th class="text-center">Mobile</th>';
         for (i = 1; i <= num; i++) {
             var d = new Date(monthName + "/" + i + "/" + year);
             var dayName = days[d.getDay()];
@@ -64,27 +64,24 @@ $.ajax({
 
 }
 var shiftValue=null;
+
  $(document).on('click', '.table-auto-fill', function autoFill(){
  if (confirm("Proceeding further will change the data for the entire row based on the first-day shift value, which will over-ride the entire Leave and WFH data for the whole row")) {
+var n=8;
+ var $row = $(this).closest("tr");
 
-$('#shiftTable #dataTr tr').each(function() {
-var n=7;
-shiftValue=$(this).find('td:nth-child('+n+')').text();
-var header=$('td:nth-child(7)').closest('table').find('th').eq($(this).index()).text();
-	//console.log(header.indexOf('Sun')>0);
-        //if (text.toUpperCase() == 'G' && (header.indexOf('Sun')<0 || header.indexOf('Sat')<0 )) 
-		console.log(shiftValue);
+shiftValue=$row.find('td:nth-child('+n+')').text();
 if(shiftValue=='-'){
-shiftValue=$(this).find('td:nth-child('+(n+1)+')').text();
+shiftValue=$row.find('td:nth-child('+(n+1)+')').text();
 if(shiftValue=='-'){
-shiftValue=$(this).find('td:nth-child('+(n+2)+')').text();
+shiftValue=$row.find('td:nth-child('+(n+2)+')').text();
 }
 }
 if(shiftValue.toUpperCase() !='L'&& shiftValue.toUpperCase() !='WFH'){
-$(this).find('td:gt(5)').each (function() {
+$row.find('td:gt(6)').each (function() {
 $(this).text(shiftValue);
 });   }
-});
+//});
 colorCode();
     } else {
         
@@ -138,7 +135,7 @@ $('#information').html('');
 function addRow(){
 
  var tr = $('<tr>');
-  $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="pt-3-half" contenteditable="true">Technical</td> <td class="pt-3-half" contenteditable="true">434545</td> <td class="pt-3-half" contenteditable="true">Naveen</td><td class="pt-3-half" contenteditable="true">No</td><td class="pt-3-half" contenteditable="true">1234567890</td>');
+  $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="extra"><button type="button" class="table-auto-fill btn btn-success btn-rounded btn-sm my-0">Auto-Fill</button></td><td class="pt-3-half" contenteditable="true">Technical</td> <td class="pt-3-half" contenteditable="true">434545</td> <td class="pt-3-half" contenteditable="true">Naveen</td><td class="pt-3-half" contenteditable="true">No</td><td class="pt-3-half" contenteditable="true">1234567890</td>');
   for (var i = 0; i < month_days; i++) {
 
                 $(tr).append('<td class="pt-3-half days even" role="row" contenteditable="true">G</td></tr>');
@@ -160,7 +157,7 @@ function createTable(data) {
         var tr = $('<tr>');
 
 
-        $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td>');
+        $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="extra"><button type="button" class="table-auto-fill btn btn-success btn-rounded btn-sm my-0">Auto-Fill</button></td>');
 
        
 
