@@ -46,10 +46,12 @@ function produceTh(month, year, num) {
 	 ajaxCall(year, monthName);
 }
 function saveFile(data,year,monthName){
-
 $.ajax({
-        type: 'GET',
-        url: '/saveFile?year='+year+'&month='+monthName+'&data='+data,
+        type: 'POST',
+		dataType: "json",
+        contentType: 'application/json',
+		data: data,
+        url: '/saveFile?year='+year+'&month='+monthName,
 		error: function (response) {
              $('#export').text(JSON.stringify(response));
         },

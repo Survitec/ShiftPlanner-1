@@ -10,6 +10,7 @@ app.use(session({
 	cookie  : { maxAge  : half_hour}
 }));
 const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 var url = require('url');
 var ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
@@ -25,7 +26,7 @@ app.get('/', function (req, res) {
 
 app.get('/index', function (req, res) {
 ssn = req.session;
-
+ console.log(ssn);
 if(ssn.username){
 res.render('index');
 }
@@ -42,17 +43,20 @@ app.post('/action',function(req,res){
   var password=req.body.password;
 if(username=='Tecshplan'&& password=='TM$node%sp^123'){
  ssn.username=req.body.username;
-
+ console.log(ssn.username);
+ console.log(req.session.id);
 res.render('index');
 }
 else{
 res.render('login');
 }
-
+  //res.render('index');
 });
 
 app.get('/shift', function (req, res) {
   ssn = req.session; 
+   console.log(ssn);
+   console.log(req.session.id);
   if(ssn.username) {
     res.render('shift');
   } else {
@@ -61,24 +65,25 @@ app.get('/shift', function (req, res) {
  // res.render('shift');
 })
 app.get('/logout',function(req,res){
-
+ console.log(ssn);
 req.session.destroy();
 res.render('login');
 });
 
-app.get('/saveFile', function(req, res) {
+app.post('/saveFile', function(req, res) {
   ssn = req.session; 
+//var json=req.body;
+const content = JSON.stringify(req.body);
   if(ssn.username) {
     var q = url.parse(req.url, true);
 	const fs = require('fs');
 	var status;
-	
+	//console.log(content);
 var fileName=q.query.year+q.query.month;
 
-fs.writeFile("public/data/"+fileName+".json",q.query.data,{ flag: 'w' }, function (err) {
+fs.writeFile("public/data/"+fileName+".json",content,{ flag: 'w' }, function (err) {
     if (err) {
 	status=err;
-    return console.log(err);
     }
 	else{
 	
@@ -87,7 +92,7 @@ fs.writeFile("public/data/"+fileName+".json",q.query.data,{ flag: 'w' }, functio
 
     console.log("The file was saved!");
 }); 
-	res.send(status);
+	res.send({"status":status});
 	 } else {
     res.render('login');
   }
