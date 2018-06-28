@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const session = require('express-session');
-var half_hour = 120000;
+var half_hour = 1800000;
 var ssn;
 app.use(session({
     secret: "jkYO7^8S4@#5D4g5vfdf-2$3gr2%34",
@@ -69,7 +69,7 @@ req.session.destroy();
 res.render('login');
 });
 
-app.post('/saveFile', function(req, res) {
+app.get('/saveFile', function(req, res) {
   ssn = req.session; 
   if(ssn.username) {
     var q = url.parse(req.url, true);

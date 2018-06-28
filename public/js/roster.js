@@ -48,7 +48,7 @@ function produceTh(month, year, num) {
 function saveFile(data,year,monthName){
 
 $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: '/saveFile?year='+year+'&month='+monthName+'&data='+data,
 		error: function (response) {
              $('#export').text(JSON.stringify(response));
@@ -66,8 +66,18 @@ var shiftValue=null;
  if (confirm("Proceeding further will change the data for the entire row based on the first-day shift value, which will over-ride the entire Leave and WFH data for the whole row")) {
 
 $('#shiftTable #dataTr tr').each(function() {
-shiftValue=$(this).find('td:nth-child(7)').text();
-
+var n=7;
+shiftValue=$(this).find('td:nth-child('+n+')').text();
+var header=$('td:nth-child(7)').closest('table').find('th').eq($(this).index()).text();
+	//console.log(header.indexOf('Sun')>0);
+        //if (text.toUpperCase() == 'G' && (header.indexOf('Sun')<0 || header.indexOf('Sat')<0 )) 
+		console.log(shiftValue);
+if(shiftValue=='-'){
+shiftValue=$(this).find('td:nth-child('+(n+1)+')').text();
+if(shiftValue=='-'){
+shiftValue=$(this).find('td:nth-child('+(n+2)+')').text();
+}
+}
 if(shiftValue.toUpperCase() !='L'&& shiftValue.toUpperCase() !='WFH'){
 $(this).find('td:gt(5)').each (function() {
 $(this).text(shiftValue);
