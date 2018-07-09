@@ -24,6 +24,28 @@ app.get('/', function (req, res) {
   res.render('login');
 })
 
+app.get('/weekly-highlights', function (req, res) {
+  ssn = req.session;
+ console.log(ssn);
+if(ssn.username){
+res.render('weekly');
+}
+else{
+res.render('login');
+}
+})
+
+app.get('/view-weekly', function (req, res) {
+  ssn = req.session;
+ console.log(ssn);
+if(ssn.username){
+res.render('view-weekly');
+}
+else{
+res.render('login');
+}
+})
+
 app.get('/index', function (req, res) {
 ssn = req.session;
  console.log(ssn);
@@ -82,6 +104,72 @@ const content = JSON.stringify(req.body);
 var fileName=q.query.year+q.query.month;
 
 fs.writeFile("public/data/"+fileName+".json",content,{ flag: 'w' }, function (err) {
+    if (err) {
+	status=err;
+    }
+	else{
+	
+	status='File saved successfully';
+	}
+
+    console.log("The file was saved!");
+}); 
+	res.send({"status":status});
+	 } else {
+    res.render('login');
+  }
+});
+
+app.get('/getData', function(req, res) {
+  ssn = req.session; 
+//var json=req.body;
+const content = JSON.stringify(req.body);
+  if(ssn.username) {
+    var q = url.parse(req.url, true);
+	const fs = require('fs');
+	var status;
+	//console.log(content);
+var fileName=q.query.year+q.query.month;
+
+
+fs.readFile("public/data/weekly_highlights/"+fileName+".json", 'utf8', function (err, data) {
+    if (err) {
+	status=err;
+	res.send({"status":status});
+    }
+	else{
+	   
+		if(data.endsWith("},")){
+		data = data.substring(0, data.length - 1);
+		
+		}
+	
+  console.log('['+data+']');
+  res.send('['+data+']');
+	}
+ 
+});
+	
+	 } else {
+    res.render('login');
+  }
+});
+
+
+
+app.post('/saveWeekFile', function(req, res) {
+  ssn = req.session; 
+//var json=req.body;
+const content = JSON.stringify(req.body);
+  if(ssn.username) {
+    var q = url.parse(req.url, true);
+	const fs = require('fs');
+	var status;
+	//console.log(content);
+var fileName=q.query.year+q.query.month;
+
+
+fs.writeFile("public/data/weekly_highlights/"+fileName+".json",content+',',{ flag: 'a' }, function (err) {
     if (err) {
 	status=err;
     }

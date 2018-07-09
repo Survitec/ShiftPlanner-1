@@ -1,4 +1,4 @@
-var year, month, month_day, monthName ;
+var year, month, month_day, monthName,dataTable ;
 var repeat = 0;
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
     "July", "Aug", "Sept", "Oct", "Nov", "Dec"
@@ -19,8 +19,11 @@ $(document).ready(function () {
     });
     $('#month').on('change', function () {
         month = this.value;
+		if (typeof dataTable != 'undefined'){
+				dataTable.destroy();
+			}
 		$('#shiftTable tbody,thead').empty();
-		
+			
         produceTh(month, year, daysInMonth(year, month));
 
     });
@@ -31,7 +34,7 @@ function produceTh(month, year, num) {
     var i;
     $(document).ready(function () {
 	//common fields irrespective of num of days in a month.
-	 var th='<tr><th class="text-center extra">Remove</th><th class="text-center extra">Auto-Fill</th><th class="text-center">Module</th> <th class="text-center">Gid</th> <th class="text-center">Name</th><th class="text-center">Cab Required</th><th class="text-center">Mobile</th>';
+	 var th='<tr class="sticky-header"><th class="text-center extra sticky-cell"  >Remove</th><th class="text-center extra sticky-cell"  >Auto-Fill</th><th class="text-center sticky-cell"  >Module</th> <th class="text-center sticky-cell"  >Gid</th> <th class="text-center sticky-cell"  >Name</th><th class="text-center sticky-cell"  >Cab Required</th><th class="text-center sticky-cell"  >Mobile</th>';
         for (i = 1; i <= num; i++) {
             var d = new Date(monthName + "/" + i + "/" + year);
             var dayName = days[d.getDay()];
@@ -128,14 +131,17 @@ $('#information').html('');
 		$('h5 b').addClass('text-success');
             createTable(data);
             repeat = 0;
+		
         }
     });
 
 }
 function addRow(){
-
+if (typeof dataTable != 'undefined'){
+				dataTable.destroy();
+			}
  var tr = $('<tr>');
-  $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="extra"><button type="button" class="table-auto-fill btn btn-success btn-rounded btn-sm my-0">Auto-Fill</button></td><td class="pt-3-half" contenteditable="true">Technical</td> <td class="pt-3-half" contenteditable="true">434545</td> <td class="pt-3-half" contenteditable="true">Naveen</td><td class="pt-3-half" contenteditable="true">No</td><td class="pt-3-half" contenteditable="true">1234567890</td>');
+  $(tr).append('<td class="extra sticky-cell"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="extra sticky-cell"><button type="button" class="table-auto-fill btn btn-success btn-rounded btn-sm my-0">Auto-Fill</button></td><td class="pt-3-half sticky-cell" contenteditable="true">Technical</td> <td class="pt-3-half sticky-cell" contenteditable="true">434545</td> <td class="pt-3-half sticky-cell" contenteditable="true">Naveen</td><td class="pt-3-half sticky-cell" contenteditable="true">No</td><td class="pt-3-half sticky-cell" contenteditable="true">1234567890</td>');
   for (var i = 0; i < month_days; i++) {
 
                 $(tr).append('<td class="pt-3-half days even" role="row" contenteditable="true">G</td></tr>');
@@ -157,7 +163,7 @@ function createTable(data) {
         var tr = $('<tr>');
 
 
-        $(tr).append('<td class="extra"><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="extra"><button type="button" class="table-auto-fill btn btn-success btn-rounded btn-sm my-0">Auto-Fill</button></td>');
+        $(tr).append('<td class="extra sticky-cell"  ><button type="button" class="table-remove btn btn-danger btn-rounded btn-sm my-0">Remove</button></td><td class="extra sticky-cell"  ><button type="button" class="table-auto-fill btn btn-success btn-rounded btn-sm my-0">Auto-Fill</button></td>');
 
        
 
@@ -170,7 +176,7 @@ function createTable(data) {
 			 $(tr).append('<td class="pt-3-half days" contenteditable="true">'+ val[keys[i]] +'</td></tr>');
 			}
 			else {
-                $(tr).append('<td class="pt-3-half" contenteditable="true">'+ val[keys[i]] +'</td></tr>');
+                $(tr).append('<td class="pt-3-half sticky-cell" contenteditable="true"  >'+ val[keys[i]] +'</td></tr>');
             }
 			}
 			
@@ -183,7 +189,7 @@ function createTable(data) {
 			 $(tr).append('<td class="pt-3-half days" contenteditable="true">'+ val[keys[i]] +'</td></tr>');
 			}
 			else {
-                $(tr).append('<td class="pt-3-half" contenteditable="true">'+ val[keys[i]] +'</td></tr>');
+                $(tr).append('<td class="pt-3-half sticky-cell" contenteditable="true"  >'+ val[keys[i]] +'</td></tr>');
             }
             }
 			for (var j =buffer; j < (month_days-totalMessages)+buffer; j++) {
@@ -192,7 +198,7 @@ function createTable(data) {
 			 $(tr).append('<td class="pt-3-half days" contenteditable="true">'+ val[keys[j]] +'</td></tr>');
 			}
 			else {
-                $(tr).append('<td class="pt-3-half" contenteditable="true">'+ val[keys[j]] +'</td></tr>');
+                $(tr).append('<td class="pt-3-half sticky-cell" contenteditable="true"  >'+ val[keys[j]] +'</td></tr>');
             }
             }
 			
@@ -205,7 +211,7 @@ function createTable(data) {
 			 $(tr).append('<td class="pt-3-half days" contenteditable="true">'+ val[keys[i]] +'</td></tr>');
 			}
 			else {
-                $(tr).append('<td class="pt-3-half" contenteditable="true">'+ val[keys[i]] +'</td></tr>');
+                $(tr).append('<td class="pt-3-half sticky-cell" contenteditable="true"  >'+ val[keys[i]] +'</td></tr>');
             }
             }
 
@@ -216,6 +222,26 @@ function createTable(data) {
     });
     colorCode();
 }
+
+function applyDataTables() {
+
+    dataTable = $('#shiftTable').DataTable( {
+		"destroy":true,
+		"searching": false,
+		"paging":false,
+    } );
+	
+	var buttons = new $.fn.dataTable.Buttons(dataTable, {
+	
+     buttons: [
+       'copyHtml5',
+       'excelHtml5',
+       'csvHtml5'
+    ]
+}).container().appendTo($('.export-buttons'));
+};
+
+
 function colorCode() {
 
     $("#shiftTable tbody td").each(function () {
@@ -276,6 +302,7 @@ function colorCode() {
         // compare id to what you want
     });
 
+	applyDataTables();
 }
 
  

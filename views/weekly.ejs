@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <title>Weekly Updates</title>
+     <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/jquery.stickytable.min.css">
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+	 <div class="row">
+	 
+    <br>
+	  <a href="/index" class="btn btn-success">Home</a>
+	    <a href="/view-weekly" class="btn btn-info">View Weekly Highlights</a>
+		
+		  <a href="/logout" class="btn btn-danger pull-right">Logout</a>
+    </div>
+	<div class="col-lg-3 col-sm-12 col-xs-12">  </div>
+	<div class="col-lg-6 col-sm-12 col-xs-12">
+	<h4 class="text-success"><b>Please fill the form and click Save.</b></h4>
+	<h5 class="text-danger"><b>Please double check when saving the form, there is no edit option.</b></h5>
+   <form id="weekForm" method="POST" name="weekForm">
+	 <div class="row">
+	 </br>
+  <div class="form-group">
+    <label for="fromdate">From Date</label>	
+<div class="input-group date" data-provide="datepicker">
+
+    <input type="date" class="form-control" id="fromdate" required name="fromdate">
+</div>
+    </div>
+
+  <div class="form-group">
+    <label for="todate">To Date</label>	
+	<div class="input-group date" data-provide="datepicker">
+
+    <input type="date" class="form-control" id="todate" required name="todate">
+</div>
+</div>
+
+  <div class="form-group">
+    <label for="module">Module</label>
+    <input type="text" class="form-control" id="module" required name="module" placeholder="Finance/SCM/Sales/Assets/Technical/DBA ...">
+  </div>
+  <div class="form-group">
+    <label for="task">Task</label>
+     <input type="text" class="form-control" id="task" name="task" required placeholder="Ex: Added 85 users today">
+  </div>
+	   <div class="form-group">
+    <label for="taskDesc">Task Description</label>
+	<textarea class="form-control" id="taskDesc" name="taskDesc" required placeholder="Ex: Based on ticket RITM00123456, created 85 new users in IFS-PROD"></textarea>
+    
+  </div>
+  <div class="form-group">
+    <label for="remarks">Remarks</label>
+	<textarea class="form-control" id="remarks" name="remarks" required placeholder="Ex: Issues I faced, creation took almost 50 minutes for one user, started at xxx and ended at xxx, "></textarea>
+    
+  </div>
+  <div class="form-group">
+    <input type="submit" value="Save" class="btn btn-success">
+    
+  </div>
+	    </div>
+	 </form>
+	 
+    </div>
+	<div class="col-lg-3 col-sm-12 col-xs-12">
+	</div>
+	 <script src="js/wkly-htlts.js"></script>
+	<script>
+	
+	</script>
+  </body>
+</html>
