@@ -37,7 +37,6 @@ res.render('login');
 
 app.get('/view-weekly', function (req, res) {
   ssn = req.session;
- console.log(ssn);
 if(ssn.username){
 res.render('view-weekly');
 }
@@ -48,7 +47,6 @@ res.render('login');
 
 app.get('/index', function (req, res) {
 ssn = req.session;
- console.log(ssn);
 if(ssn.username){
 res.render('index');
 }
@@ -65,8 +63,7 @@ app.post('/action',function(req,res){
   var password=req.body.password;
 if(username=='Tecshplan'&& password=='TM$node%sp^123'){
  ssn.username=req.body.username;
- console.log(ssn.username);
- console.log(req.session.id);
+ console.log('User IP address:'+req.ip);
 res.render('index');
 }
 else{
@@ -76,9 +73,7 @@ res.render('login');
 });
 
 app.get('/shift', function (req, res) {
-  ssn = req.session; 
-   console.log(ssn);
-   console.log(req.session.id);
+  ssn = req.session;
   if(ssn.username) {
     res.render('shift');
   } else {
