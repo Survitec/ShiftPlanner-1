@@ -95,6 +95,7 @@ text-align:center;
             </tr>
         </tfoot>
     </table>
+	<button class="btn btn-success" id="export-btn">Save</button>
 	 
     </div>
 	 <script src="js/wkly-htlts.js"></script>
@@ -142,7 +143,7 @@ $(document).ready(function () {
 	   { width: '300px', targets: 5 }
     ],
         "ajax" : {
-                    "url" : "getData?year="+year+"&month="+monthName,
+                    "url" : "getData?flag=weekly&year="+year+"&month="+monthName,
                     "type" : "GET",
 					"dataSrc":""
                 },
@@ -162,9 +163,21 @@ $(document).ready(function () {
             'csvHtml5',
             'pdfHtml5'
         ],
-		select: true
+		select: true,
+		 "drawCallback": function() {
+        addAttribute();	
+    }
     } );
+
 };
+
+var addAttribute= function(){
+$(document).ready(function () {
+$("#example tbody tr td").each(function(){
+   $(this).attr('contenteditable', 'true');
+});
+});
+}
 	</script>
   </body>
 </html>

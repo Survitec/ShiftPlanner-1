@@ -48,7 +48,15 @@
 
   <div class="form-group">
     <label for="module">Module</label>
-    <input type="text" class="form-control" id="module" required name="module" placeholder="Finance/SCM/Sales/Assets/Technical/DBA ...">
+	<select class="form-control" id="module" required name="module" >
+	<option value="">Please select</option>
+	<option value="Finance">Finance</option>
+	<option value="SCM">SCM</option>
+	<option value="Sales">Sales</option>
+	<option value="Asset Management">Asset Management</option>
+	<option value="Technical">Technical</option>
+	<option value="DBA">DBA</option></select>
+    
   </div>
   <div class="form-group">
     <label for="task">Task</label>

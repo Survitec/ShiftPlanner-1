@@ -2,8 +2,8 @@
 <html>
   <head>
   
-    <title>Home</title>
-   <meta charset="UTF-8">
+    <title>Weekly Updates</title>
+     <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,6 +13,7 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
+
 .dt-button{
 color:#fff;background-color:#5bc0de;border-color:#46b8da
 display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px;
@@ -20,26 +21,30 @@ display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight
 
 .dt-button:focus{color:#000;background-color:#5bc0de;border-color:#46b8da}
 .dt-button:hover{color:#5bc0de;background-color:#fff;border-color:#46b8da}
+th{
+text-align:center;
+}
 </style>
   </head>
   <body>
     <div class="container">
-
-	<div class="col-lg-12 col-sm-12 col-md-12 ">
-      <h3>Please select below to Navigate</h3>
-	  <a href="/shift" class="btn btn-success">Shift Schedule</a>
-	    <a href="/weekly-highlights" class="btn btn-info">Weekly Highlights</a>
-		<a href="/news" class="btn btn-primary">News Updates</a>
-	
+	 <div class="row">
+    <br>
+	  <a href="/index" class="btn btn-success">Home</a>
+		
 		  <a href="/logout" class="btn btn-danger pull-right">Logout</a>
-		  
-		  <br>
-		  <br>
-		  <br>
-		  <h3><b>News Updates</b></h3>
-		  	<table id="news-tab" class="display table table-bordered table-responsive-md table-striped text-center">
+    </div>
+	<div class="col-lg-1 col-sm-12 col-xs-12">  
+		 	
+</div>
+	<div class="col-lg-11 col-sm-12 col-xs-12">
+	<h4 class="text-success"> <b>Click on the cells and start editing</b></h4>
+	<button class="btn btn-success" id="addRow">Add Row</button><br>
+	<br>
+	<table id="news-tab" class="display table table-bordered table-responsive table-striped text-center">
         <thead >
             <tr>
+			<th>Remove</th>
                 <th>Type</th>
 				<th>Description</th>
                 <th>Start Date</th>
@@ -51,6 +56,7 @@ display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight
         </thead>
         <tfoot>
                       <tr>
+					  <th>Remove</th>
                 <th>Type</th>
 				<th>Description</th>
                 <th>Start Date</th>
@@ -61,9 +67,12 @@ display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight
             </tr>
         </tfoot>
     </table>
+	<button class="btn btn-success" id="save-btn">Save</button>
+	 
     </div>
-	 </div>
-	 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> 
+	 <script src="js/wkly-htlts.js"></script>
+	 
+	  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> 
 	  <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 	  <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -71,17 +80,23 @@ display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 	  <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 	  <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+
+
+
 	<script>
+	var type=["alert","event","info"];
 	$(document).ready(function () {
-    $('#news-tab').DataTable( {
+   var dataTable= $('#news-tab').DataTable( {
 	"destroy": true,
 	columnDefs: [
-	{ width: '50px', targets: 0 },
-       { width: '300px', targets: 1 }, 
-       { width: '30px', targets: 2 }, 
-       { width: '30px', targets: 3 },
-	   { width: '30px', targets: 4 }, 
-	   { width: '30px', targets: 5 }
+	{ width: '35px', targets: 0 },
+	{ width: '50px', targets: 1 },
+       { width: '300px', targets: 2 }, 
+       { width: '30px', targets: 3 }, 
+       { width: '30px', targets: 4 },
+	   { width: '30px', targets: 5 }, 
+	   { width: '30px', targets: 6 }
     ],
         "ajax" : {
                     "url" : "getData?flag=news",
@@ -89,9 +104,13 @@ display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight
 					"dataSrc":""
                 },
 		  "columns": [
-            {data: 'type'},
+		  {
+                "data": null,
+                "defaultContent": '<button class="btn btn-danger" id="deleteRow" type="button"><i class="fa fa-trash-o"></i></button>'
+            },
+			{data: 'type'},			
 			{data: 'description'},
-            {data: 'fromDate'},
+			{data: 'fromDate'},
             {data: 'toDate'},
             {data: 'status'},
             {data: 'remarks'}
@@ -106,14 +125,60 @@ display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight
         ],
 		select: true,
 		 "drawCallback": function() {
+		 
         addColor();	
     }
     } );
-
+   $('#addRow').on( 'click', function () {
+        dataTable.row.add({"type":"info","description":"description","fromDate":"25-04-1994","toDate":"25-04-1994","status":"completed","remarks":"remarks"}).draw( false );
+ 
+    } );
 });
-var addColor= function(){
 
-$("#news-tab tbody tr td").each(function(){
+$(document).on("blur","#news-tab tbody tr td",function(){
+ if($(this).hasClass("type")){
+ if(!["alert", "event", "info"].includes($(this).text())){
+ alert("The data you entered should one of the following: alert, event, info in lowercase. So changing it back to info");
+ $(this).text('info');
+ }
+ }
+ if($(this).hasClass("fromDate")||$(this).hasClass("toDate")){
+var dateReg = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+
+$(this).text().match(dateReg);
+
+ if(!($(this).text().match(dateReg))){
+ alert("Please check the date format DD-MM-YYYY. So changing it back to default date 25-04-1994");
+ $(this).text('25-04-1994');
+ }
+ }
+  if($(this).hasClass("status")){
+ if(!["active", "upcoming", "completed"].includes($(this).text())){
+ alert("The data you entered should one of the following: active, upcoming, completed in lowercase. So changing it back to info");
+ $(this).text('active');
+ }
+ }
+});
+
+var addColor= function(){
+$('td:first-child').each(function() {
+    $(this).addClass('extra');
+});
+$('td:nth-child(2)').each(function() {
+    $(this).addClass('type');
+});
+$('td:nth-child(4)').each(function() {
+    $(this).addClass('fromDate');
+});
+$('td:nth-child(5)').each(function() {
+    $(this).addClass('toDate');
+});
+$('td:nth-child(6)').each(function() {
+    $(this).addClass('status');
+});
+$("#news-tab tbody tr td").not(".extra").each(function(){
+ $(this).attr('contenteditable', 'true');
+
 if($(this).text()=='info'){
    $(this).addClass('bg-info');
    }
@@ -125,6 +190,7 @@ if($(this).text()=='info'){
    }
 });
 }
+
 	</script>
   </body>
 </html>

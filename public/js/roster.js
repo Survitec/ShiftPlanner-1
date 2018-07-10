@@ -54,7 +54,7 @@ $.ajax({
 		dataType: "json",
         contentType: 'application/json',
 		data: data,
-        url: '/saveFile?year='+year+'&month='+monthName,
+        url: '/saveFile?year='+year+'&month='+monthName+'&flag=shift',
 		error: function (response) {
              $('#export').text(JSON.stringify(response));
         },

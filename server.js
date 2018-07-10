@@ -26,7 +26,7 @@ app.get('/', function (req, res) {
 
 app.get('/weekly-highlights', function (req, res) {
   ssn = req.session;
- console.log(ssn);
+
 if(ssn.username){
 res.render('weekly');
 }
@@ -37,6 +37,7 @@ res.render('login');
 
 app.get('/view-weekly', function (req, res) {
   ssn = req.session;
+
 if(ssn.username){
 res.render('view-weekly');
 }
@@ -47,6 +48,7 @@ res.render('login');
 
 app.get('/index', function (req, res) {
 ssn = req.session;
+
 if(ssn.username){
 res.render('index');
 }
@@ -56,6 +58,17 @@ res.render('login');
   
 })
 
+app.get('/news', function (req, res) {
+ssn = req.session;
+
+if(ssn.username){
+res.render('news');
+}
+else{
+res.render('login');
+}
+  
+})
 app.post('/action',function(req,res){
   ssn = req.session;
  
@@ -63,7 +76,7 @@ app.post('/action',function(req,res){
   var password=req.body.password;
 if(username=='Tecshplan'&& password=='TM$node%sp^123'){
  ssn.username=req.body.username;
- console.log('User IP address:'+req.ip);
+
 res.render('index');
 }
 else{
@@ -73,7 +86,8 @@ res.render('login');
 });
 
 app.get('/shift', function (req, res) {
-  ssn = req.session;
+  ssn = req.session; 
+
   if(ssn.username) {
     res.render('shift');
   } else {
@@ -82,7 +96,7 @@ app.get('/shift', function (req, res) {
  // res.render('shift');
 })
 app.get('/logout',function(req,res){
- console.log(ssn);
+
 req.session.destroy();
 res.render('login');
 });
@@ -90,13 +104,28 @@ res.render('login');
 app.post('/saveFile', function(req, res) {
   ssn = req.session; 
 //var json=req.body;
-const content = JSON.stringify(req.body);
+var content = JSON.stringify(req.body);
+ 
   if(ssn.username) {
     var q = url.parse(req.url, true);
 	const fs = require('fs');
 	var status;
 	//console.log(content);
 var fileName=q.query.year+q.query.month;
+var flag=q.query.flag;
+if(flag=='weekly'){
+content=content.replace(/[\[\]']+/g,'');
+fs.writeFile("public/data/weekly_highlights/"+fileName+".json",content+',',{ flag: 'w' }, function (err) {
+    if (err) {
+	status=err;
+    }
+	else{
+	
+	status='File saved successfully';
+	}
+}); 
+}
+else{
 
 fs.writeFile("public/data/"+fileName+".json",content,{ flag: 'w' }, function (err) {
     if (err) {
@@ -107,8 +136,8 @@ fs.writeFile("public/data/"+fileName+".json",content,{ flag: 'w' }, function (er
 	status='File saved successfully';
 	}
 
-    console.log("The file was saved!");
 }); 
+}
 	res.send({"status":status});
 	 } else {
     res.render('login');
@@ -125,8 +154,9 @@ const content = JSON.stringify(req.body);
 	var status;
 	//console.log(content);
 var fileName=q.query.year+q.query.month;
+var flag=q.query.flag;
 
-
+if(flag=='weekly'){
 fs.readFile("public/data/weekly_highlights/"+fileName+".json", 'utf8', function (err, data) {
     if (err) {
 	status=err;
@@ -138,18 +168,80 @@ fs.readFile("public/data/weekly_highlights/"+fileName+".json", 'utf8', function 
 		data = data.substring(0, data.length - 1);
 		
 		}
-	
-  console.log('['+data+']');
+
   res.send('['+data+']');
 	}
  
 });
+}
+else{
+
+fs.readFile("public/data/news/news.json", 'utf8', function (err, data) {
+    if (err) {
+	status=err;
+	res.send({"status":status});
+    }
+	else{
+	   
+		if(data.endsWith("},")){
+		data = data.substring(0, data.length - 1);
+		
+		}
+
+  res.send('['+data+']');
+	}
+ 
+});
+}
 	
 	 } else {
     res.render('login');
   }
 });
 
+
+app.post('/edit-news', function(req, res) {
+
+  ssn = req.session; 
+
+//var json=req.body;
+
+  if(ssn.username) {
+      var password=req.body.pwd;
+if(password=='TM$neWs%N33^123'){
+
+  var content = req.body.data;
+ content=content.replace(/[\[\]']+/g,'');
+ if (content === "") {
+    content="";
+}
+else{
+content=content+',';
+}
+    var q = url.parse(req.url, true);
+	const fs = require('fs');
+	var status;
+
+fs.writeFile("public/data/news/news.json",content,{ flag: 'w' }, function (err) {
+    if (err) {
+	status=err;
+    }
+	else{
+	
+	status='File saved successfully';
+	}
+}); 
+	res.send('File saved successfully');
+	 }
+
+else{
+status='Sorry, wrong password, one more chance... Try Again !!!';
+res.send(status);
+}	
+} else {
+    res.render('login');
+  }
+});
 
 
 app.post('/saveWeekFile', function(req, res) {
@@ -173,7 +265,6 @@ fs.writeFile("public/data/weekly_highlights/"+fileName+".json",content+',',{ fla
 	status='File saved successfully';
 	}
 
-    console.log("The file was saved!");
 }); 
 	res.send({"status":status});
 	 } else {
@@ -185,5 +276,5 @@ app.listen(8080, ip);
 module.exports = app;
 
 //app.listen(8111, function () {
-  //console.log('Example app listening on port 8111!')
+ // console.log('Example app listening on port 8111!')
 //})
