@@ -74,7 +74,7 @@ app.post('/action',function(req,res){
  
   var username=req.body.username;
   var password=req.body.password;
-if(username=='Tecshplan'&& password=='TM$node%sp^123'){
+if(username=='TechM_Survitec'&& password=='Copernicus85$'){
  ssn.username=req.body.username;
 
 res.render('index');
